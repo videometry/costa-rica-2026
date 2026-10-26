@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Costa Rica 2026 — Logistics, Lodging & Master Itinerary Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0b0f14;
+      color: #f1f5f9;
+    }
+    .serif-title {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+    .card-zoom:hover img {
+      transform: scale(1.05);
+    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+  </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-sky-500 selection:text-slate-950">
+
+  <!-- Top App Navigation Bar -->
+  <nav class="sticky top-0 z-40 backdrop-blur-xl bg-[#0b0f14]/90 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2 font-bold text-white text-sm sm:text-base">
+        <span>🇨🇷 Costa Rica 2026</span>
+        <span class="text-slate-600">•</span>
+        <span class="text-xs sm:text-sm font-medium text-sky-400">Nov 16–23, 2026</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="./index.html" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-sky-500 text-slate-950 shadow">
+          🏨 Logistics & Lodging Hub
+        </a>
+        <a href="./Costa_Rica_2026_Wildlife_and_Photo_Gallery.html" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+          📸 Wildlife & Photo Gallery
+        </a>
+        <a href="./budget.csv" class="hidden sm:inline-flex px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 transition">
+          📊 Budget CSV
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="relative overflow-hidden border-b border-slate-800/80 bg-gradient-to-b from-sky-950/40 via-slate-900/90 to-[#0b0f14]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-9 pb-8">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-300 text-xs font-semibold tracking-wider uppercase mb-3">
+            <span>🗺️ Master Logistics, Lodging & Route Command Center</span>
+          </div>
+          <h1 class="serif-title text-3xl sm:text-5xl font-bold text-white tracking-tight">
+            Guanacaste & Northern Rainforest Loop
+          </h1>
+          <p class="mt-2.5 text-slate-300 max-w-3xl text-sm sm:text-base leading-relaxed">
+            Monday, November 16 – Monday, November 23, 2026 • 2 Adults • Flying Round-Trip into Liberia (LIR) • Driving an Enterprise Suzuki Jimny 4x4 across 4 architectural stays (60% Beach / 40% Volcano & Rainforest).
+          </p>
+        </div>
+
+        <!-- Pre-Trip Readiness Tracker -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 min-w-[280px] shadow-xl">
+          <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+            <span>Pre-Trip Readiness</span>
+            <button onclick="resetTasks()" class="text-sky-400 hover:text-sky-300 underline text-xs font-normal">Reset</button>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span id="doneTaskCount" class="text-3xl font-extrabold text-sky-400">0</span>
+            <span class="text-slate-400 text-sm">/ <span id="totalTaskCount">10</span> logistics items done</span>
+          </div>
+          <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden mt-2.5">
+            <div id="taskProgressBar" class="h-full bg-gradient-to-r from-sky-500 to-emerald-400 transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Top KPI Summary Tiles -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 mt-7">
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">✈️ Flights (Booked)</div>
+          <div class="text-2xl font-extrabold text-white mt-1">$845.13 <span class="text-xs font-normal text-emerald-400">Paid</span></div>
+          <div class="text-xs text-slate-400 mt-1">Delta Round-Trip LIR (w/ Companion Cert — saved ~$846)</div>
+        </div>
+
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">🚙 4x4 Vehicle (Reserved)</div>
+          <div class="text-2xl font-extrabold text-white mt-1">$431.75 <span class="text-xs font-normal text-amber-300">Due at LIR</span></div>
+          <div class="text-xs text-slate-400 mt-1">Enterprise Suzuki Jimny 4x4 • ~430 km (270 mi) loop</div>
+        </div>
+
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">🏡 7-Night Lodging (4 Stays)</div>
+          <div class="text-2xl font-extrabold text-emerald-400 mt-1">~$1,032.11</div>
+          <div class="text-xs text-slate-400 mt-1">$502.61 Paid Now • ~$529.50 Due at Check-In</div>
+        </div>
+
+        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs font-semibold uppercase tracking-wider text-slate-400">💰 Estimated All-In Trip Total</div>
+          <div class="text-2xl font-extrabold text-white mt-1">$3,260 <span class="text-xs font-normal text-slate-400">($1,630/pp)</span></div>
+          <div class="text-xs text-slate-400 mt-1">Includes flights, 4x4, 7N lodging, food, gas & parks</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-9 space-y-14">
+
+    <!-- SECTION 1: THE 4 ACCOMMODATIONS & CHECK-IN LOGISTICS -->
+    <section>
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-6">
+        <div>
+          <h2 class="text-2xl font-bold text-white">1. Your 4 Accommodations & Check-In Logistics</h2>
+          <p class="text-sm text-slate-400 mt-0.5">Property details, check-in/out times, payment instructions, and Google Maps coordinates. (Private PDF vouchers & confirmation numbers stored locally.)</p>
+        </div>
+        <span class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
+          3 of 4 Booked • 1 Waiting on WhatsApp
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- STOP 1: POTRERO -->
+        <article class="card-zoom bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden flex flex-col justify-between shadow-lg">
+          <div>
+            <div class="relative h-56 overflow-hidden bg-slate-950">
+              <img src="./gallery_images/lodging_potrero.jpg" alt="Lux Romantic Cocoon Potrero" class="w-full h-full object-cover transition duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+              <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-sky-500 text-slate-950">Stop 1 • Mon Nov 16 – Wed Nov 18 (2N)</span>
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500 text-slate-950">✓ Booked on Airbnb</span>
+              </div>
+              <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
+                <div>
+                  <div class="text-xs font-semibold text-sky-300 uppercase tracking-wider">Playa Potrero / Playa Penca Hills</div>
+                  <h3 class="text-xl font-bold text-white">Lux. Romantic Cocoon: Sea View & Private Pool</h3>
+                </div>
+                <div class="text-right">
+                  <div class="text-lg font-extrabold text-white">$277.74</div>
+                  <div class="text-xs text-emerald-300">Paid (Airbnb)</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-5 space-y-3 text-xs sm:text-sm">
+              <p class="text-slate-300 leading-relaxed">
+                Independent cliffside couples' suite with a private plunge pool (2m × 1.3m), king bed, kitchenette, and panoramic sunset views over Potrero & Flamingo Bay. 5 mins to Playa Penca & Playa Potrero, 15 mins to Las Catalinas.
+              </p>
+              <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 space-y-1.5 text-xs">
+                <div><span class="text-slate-400 font-semibold">🏷️ Status:</span> <span class="text-emerald-300 font-semibold">Confirmed & Paid on Airbnb</span> (15% host discount applied, $0 cleaning fee)</div>
+                <div><span class="text-slate-400 font-semibold">🚗 Drive from LIR Airport:</span> <span class="text-sky-300">~1 hr 15 min (52 km) via paved Route 21 & Route 911</span></div>
+                <div><span class="text-slate-400 font-semibold">🔑 Check-In Rule:</span> <span class="text-slate-200">On-site hosts perform key handover in person and send gate/beach maps before arrival.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-5 pb-5 pt-1 flex flex-wrap items-center gap-2">
+            <a href="https://www.airbnb.com/rooms/52171562?check_in=2026-11-16&check_out=2026-11-18&adults=2" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-sky-500 hover:bg-sky-400 text-slate-950 transition">
+              Open Airbnb Listing ↗
+            </a>
+            <a href="https://www.google.com/maps/search/Playa+Penca+Potrero+Costa+Rica" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+              📍 Google Maps (Potrero / Penca)
+            </a>
+          </div>
+        </article>
+
+        <!-- STOP 2: SAMARA (GECKO VERDE) -->
+        <article class="card-zoom bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden flex flex-col justify-between shadow-lg">
+          <div>
+            <div class="relative h-56 overflow-hidden bg-slate-950">
+              <img src="./gallery_images/lodging_gecko.jpg" alt="El Pequeno Gecko Verde Samara" class="w-full h-full object-cover transition duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+              <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-400 text-slate-950">Stop 2 • Wed Nov 18 – Fri Nov 20 (2N)</span>
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500 text-slate-950">✓ Confirmed Direct</span>
+              </div>
+              <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
+                <div>
+                  <div class="text-xs font-semibold text-amber-300 uppercase tracking-wider">Buena Vista / Sámara Beach</div>
+                  <h3 class="text-xl font-bold text-white">Hotel El Pequeño Gecko Verde — Lodge Deluxe</h3>
+                </div>
+                <div class="text-right">
+                  <div class="text-lg font-extrabold text-white">$249.50 <span class="text-xs font-normal text-slate-300">cash</span></div>
+                  <div class="text-xs text-amber-300">($271.20 card w/ tax)</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-5 space-y-3 text-xs sm:text-sm">
+              <p class="text-slate-300 leading-relaxed">
+                Stilted tropical hardwood bungalow inside a botanical wildlife corridor (4-min walk to wild Playa Buenavista, 5-min drive to Sámara town). Features A/C, full kitchen, hammock terrace, lagoon pool, and an <strong>outdoor river-stone shower under the stars</strong>.
+              </p>
+              <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 space-y-1.5 text-xs">
+                <div><span class="text-slate-400 font-semibold">🧾 Status:</span> <span class="text-emerald-300 font-semibold">Confirmed (Voucher on file)</span> • Check-in: <strong>3:00 PM</strong> • Check-out: <strong>11:00 AM</strong></div>
+                <div><span class="text-slate-400 font-semibold">📍 Address & Phone:</span> <span class="text-slate-200">800m Oeste del Hotel Pacific Lodge, Sámara • +506 2656-1176</span></div>
+                <div class="text-amber-300 font-medium">💵 Cash Discount Rule: $0 paid upfront. Bring ~$250 USD cash to check-in to get their 8% cash discount ($220.80 + 13% VAT = ~$249.50 instead of $271.20)!</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-5 pb-5 pt-1 flex flex-wrap items-center gap-2">
+            <a href="https://www.gecko-verde.com/" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition">
+              Open Gecko-Verde.com ↗
+            </a>
+            <a href="https://www.google.com/maps/search/El+Pequeno+Gecko+Verde+Samara+Costa+Rica" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+              📍 Google Maps
+            </a>
+          </div>
+        </article>
+
+        <!-- STOP 3: BIJAGUA (BITZU DOME) -->
+        <article class="card-zoom bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden flex flex-col justify-between shadow-lg">
+          <div>
+            <div class="relative h-56 overflow-hidden bg-slate-950">
+              <img src="./gallery_images/lodging_dome.jpg" alt="Bitzu Dome Bijagua" class="w-full h-full object-cover transition duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+              <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-400 text-slate-950">Stop 3 • Fri Nov 20 – Sun Nov 22 (2N)</span>
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-400 text-slate-950">⏳ WhatsApp Sent (+506 8689-0000)</span>
+              </div>
+              <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
+                <div>
+                  <div class="text-xs font-semibold text-emerald-300 uppercase tracking-wider">Bijagua de Upala / Río Celeste</div>
+                  <h3 class="text-xl font-bold text-white">Bitzu Dome — Bijagua Riverside Glamping</h3>
+                </div>
+                <div class="text-right">
+                  <div class="text-lg font-extrabold text-white">$240–$300</div>
+                  <div class="text-xs text-emerald-300">Direct ($330 Airbnb)</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-5 space-y-3 text-xs sm:text-sm">
+              <p class="text-slate-300 leading-relaxed">
+                Private 7m geodesic dome perched over a tributary of the Bijagua River (8 mins from Bijagua town, 20–25 mins to Río Celeste). Features king bed, A/C, full kitchen, decagonal river/volcano deck, and <strong>free access to the adjacent Cataratas Bijagua private waterfall & Miravalles trails</strong> (150m away).
+              </p>
+              <div class="bg-slate-950/90 border border-slate-800 rounded-xl p-3.5 space-y-1.5 text-xs">
+                <div><span class="text-slate-400 font-semibold">📱 Direct Contact:</span> <span class="text-white">WhatsApp +506 8689-0000 • info@bitzudome.com</span></div>
+                <div><span class="text-slate-400 font-semibold">🥾 Included Private Trails:</span> <span class="text-emerald-300">1 km Miravalles Volcano Viewpoint Trail + 2 km Bijagua River Waterfalls & Pools</span></div>
+                <div><span class="text-slate-400 font-semibold">🦥 Nearby Sloths:</span> <span class="text-slate-200">10 mins from Finca Verde Lodge ($15/pp guaranteed eye-level sloth walk) & Tapir Valley.</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-5 pb-5 pt-1 flex flex-wrap items-center gap-2">
+            <a href="https://bitzudome.com/rooms/deluxe-room" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition">
+              Open BitzuDome.com Direct ↗
+            </a>
+            <a href="https://www.airbnb.com/rooms/36422548?check_in=2026-11-20&check_out=2026-11-22&adults=2" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+              Airbnb Listing
+            </a>
+            <a href="https://www.google.com/maps/search/Bitzu+Dome+Bijagua+Costa+Rica" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+              📍 Google Maps
+            </a>
+          </div>
+        </article>
+
+        <!-- STOP 4: RINCON DE LA VIEJA (HACIENDA GUACHIPELIN) -->
+        <article class="card-zoom bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden flex flex-col justify-between shadow-lg">
+          <div>
+            <div class="relative h-56 overflow-hidden bg-slate-950">
+              <img src="./gallery_images/lodging_guachipelin.jpg" alt="Hacienda Guachipelin Rincon de la Vieja" class="w-full h-full object-cover transition duration-500" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+              <div class="absolute top-3 left-3 flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-500 text-white">Stop 4 • Sun Nov 22 – Mon Nov 23 (1N)</span>
+                <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500 text-slate-950">✓ Confirmed & Paid</span>
+              </div>
+              <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
+                <div>
+                  <div class="text-xs font-semibold text-rose-300 uppercase tracking-wider">Rincón de la Vieja National Park Gate</div>
+                  <h3 class="text-xl font-bold text-white">Hacienda Guachipelín — Superior Room 1 Queen</h3>
+                </div>
+                <div class="text-right">
+                  <div class="text-lg font-extrabold text-white">$224.87</div>
+                  <div class="text-xs text-emerald-300">Paid in Full</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-5 space-y-3 text-xs sm:text-sm">
+              <p class="text-slate-300 leading-relaxed">
+                Sits right at the Las Pailas volcano entrance (and just 45 mins on paved roads to LIR Airport for Monday departure). Rate bundles <strong>~$155 of perks for 2 adults</strong>: Río Negro Hot Springs & volcanic mud baths ($70), 7 ranch waterfalls ($40), welcome drinks, and Monday buffet breakfast ($30).
+              </p>
+              <div class="bg-slate-950/90 border border-rose-500/40 rounded-xl p-3.5 space-y-1.5 text-xs">
+                <div><span class="text-slate-400 font-semibold">🧾 Status:</span> <span class="text-emerald-300 font-semibold">Confirmed & Paid in Full</span> ($199.00 + $25.87 tax = $224.87)</div>
+                <div class="text-rose-300 font-semibold">💳 MANDATORY VOUCHER RULE: You MUST present the exact physical credit card used to pay for this booking at check-in (or they charge a $10 admin fee to refund & re-bill).</div>
+                <div><span class="text-slate-400 font-semibold">🧳 Sunday Arrival Tip:</span> <span class="text-slate-200">Stop at reception at 9:45 AM Sunday to store your bags safely with the bell desk & grab wristbands BEFORE driving 5 mins to hike Las Pailas!</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="px-5 pb-5 pt-1 flex flex-wrap items-center gap-2">
+            <a href="https://www.guachipelin.com/" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition">
+              Open Guachipelin.com ↗
+            </a>
+            <a href="https://www.google.com/maps/search/Hacienda+Guachipelin+Costa+Rica" target="_blank" class="px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+              📍 Google Maps
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: MASTER DRIVE-TIME & ROUTE MATRIX -->
+    <section class="border-t border-slate-800/80 pt-12">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-white">2. Master Driving Route, Transfer Times & Safe Stops</h2>
+        <p class="text-sm text-slate-400 mt-0.5">All 4 main transfer legs use paved main highways. Download offline Google Maps + Waze before departure.</p>
+      </div>
+
+      <div class="overflow-x-auto bg-slate-900/90 border border-slate-800 rounded-2xl shadow-lg">
+        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+          <thead>
+            <tr class="border-b border-slate-800 bg-slate-950/60 text-slate-400 uppercase text-xs tracking-wider">
+              <th class="py-3.5 px-4">Day & Date</th>
+              <th class="py-3.5 px-4">Route Segment</th>
+              <th class="py-3.5 px-4">Drive Time & Distance</th>
+              <th class="py-3.5 px-4">Exact Highways & Midpoint Stops</th>
+              <th class="py-3.5 px-4">Navigation</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/80 text-slate-200">
+            <tr class="hover:bg-slate-800/40">
+              <td class="py-3.5 px-4 font-semibold text-sky-300">Day 1 • Mon, Nov 16</td>
+              <td class="py-3.5 px-4 font-bold text-white">LIR Airport → Potrero</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-sky-500/15 text-sky-300 font-semibold">~1 hr 15 min</span> (52 km / 32 mi)</td>
+              <td class="py-3.5 px-4 text-slate-300">100% paved via <strong>Route 21 → Route 911 / 180</strong>. Stop at <em>Maxi Palí</em> (Comunidad) or <em>Mercadito</em> (Potrero) for groceries & drinks.</td>
+              <td class="py-3.5 px-4"><a href="https://www.google.com/maps/dir/Daniel+Oduber+Quiros+International+Airport,+Liberia,+Costa+Rica/Playa+Potrero,+Costa+Rica" target="_blank" class="text-sky-400 hover:underline font-semibold">Map Route ↗</a></td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="py-3.5 px-4 font-semibold text-amber-300">Day 3 • Wed, Nov 18</td>
+              <td class="py-3.5 px-4 font-bold text-white">Potrero → Sámara (Gecko Verde)</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 font-semibold">~2 hr 15 min</span> (105 km / 65 mi)</td>
+              <td class="py-3.5 px-4 text-slate-300">100% paved inland via <strong>Route 21 (Santa Cruz → Nicoya) → Route 150 (Sámara)</strong>. Lunch at <em>Coopetortilla</em> in Santa Cruz. <span class="text-rose-400 font-semibold">⚠️ Never take unpaved coastal Route 160!</span></td>
+              <td class="py-3.5 px-4"><a href="https://www.google.com/maps/dir/Playa+Potrero,+Costa+Rica/Santa+Cruz,+Costa+Rica/Samara,+Costa+Rica" target="_blank" class="text-sky-400 hover:underline font-semibold">Map Route ↗</a></td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="py-3.5 px-4 font-semibold text-emerald-300">Day 5 • Fri, Nov 20</td>
+              <td class="py-3.5 px-4 font-bold text-white">Sámara → Bijagua (Bitzu Dome)</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 font-semibold">~3 hr 00 min</span> (155 km / 96 mi)</td>
+              <td class="py-3.5 px-4 text-slate-300">Paved via <strong>Route 150 → Nicoya → Route 18 (Tempisque Bridge) → Hwy 1 (Cañas) → Route 6 (Bijagua)</strong>. Midpoint lunch at <em>Café & Macadamia</em> in Cañas (guarded parking lot) + optional <em>Las Pumas Rescue Center</em> next door.</td>
+              <td class="py-3.5 px-4"><a href="https://www.google.com/maps/dir/Samara,+Costa+Rica/Canas,+Costa+Rica/Bijagua+de+Upala,+Costa+Rica" target="_blank" class="text-sky-400 hover:underline font-semibold">Map Route ↗</a></td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="py-3.5 px-4 font-semibold text-rose-300">Day 7 • Sun, Nov 22</td>
+              <td class="py-3.5 px-4 font-bold text-white">Bijagua → Hacienda Guachipelín</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-rose-500/15 text-rose-300 font-semibold">~1 hr 45 min</span> (82 km / 51 mi)</td>
+              <td class="py-3.5 px-4 text-slate-300">Paved down <strong>Route 6 → Hwy 1 (Bagaces / Liberia) → Curubandé road</strong>. Arrive 9:45 AM to drop luggage at Guachipelín bell desk before hiking Las Pailas!</td>
+              <td class="py-3.5 px-4"><a href="https://www.google.com/maps/dir/Bijagua+de+Upala,+Costa+Rica/Hotel+Hacienda+Guachipelin,+Curubande,+Costa+Rica" target="_blank" class="text-sky-400 hover:underline font-semibold">Map Route ↗</a></td>
+            </tr>
+            <tr class="hover:bg-slate-800/40">
+              <td class="py-3.5 px-4 font-semibold text-purple-300">Day 8 • Mon, Nov 23</td>
+              <td class="py-3.5 px-4 font-bold text-white">Hacienda Guachipelín → LIR Airport</td>
+              <td class="py-3.5 px-4"><span class="px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 font-semibold">~45–50 min</span> (36 km / 22 mi)</td>
+              <td class="py-3.5 px-4 text-slate-300">Paved via <strong>Curubandé → Liberia → Route 21 West</strong> to Enterprise Car Rental return (10:30 AM) & 5-min shuttle to LIR Terminal (~2:00 PM flight).</td>
+              <td class="py-3.5 px-4"><a href="https://www.google.com/maps/dir/Hotel+Hacienda+Guachipelin,+Curubande,+Costa+Rica/Daniel+Oduber+Quiros+International+Airport,+Liberia,+Costa+Rica" target="_blank" class="text-sky-400 hover:underline font-semibold">Map Route ↗</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 3: INTERACTIVE DAY-BY-DAY TIMELINE -->
+    <section class="border-t border-slate-800/80 pt-12">
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-2xl font-bold text-white">3. Interactive Day-by-Day Schedule (Nov 16–23, 2026)</h2>
+          <p class="text-sm text-slate-400 mt-0.5">Sunrise is ~5:38 AM and Sunset is ~5:14 PM (dark by 5:35 PM). Filter by day below.</p>
+        </div>
+        <div class="flex flex-wrap gap-1.5" id="dayFilterBar">
+          <button onclick="filterDays('all')" data-day="all" class="day-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-sky-500 text-slate-950">All 8 Days</button>
+          <button onclick="filterDays('1')" data-day="1" class="day-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Day 1–2 (Potrero)</button>
+          <button onclick="filterDays('2')" data-day="2" class="day-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Day 3–4 (Sámara)</button>
+          <button onclick="filterDays('3')" data-day="3" class="day-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Day 5–6 (Bijagua)</button>
+          <button onclick="filterDays('4')" data-day="4" class="day-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700">Day 7–8 (Rincón & LIR)</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="daysGrid">
+        <!-- Day 1 -->
+        <div data-group="1" class="day-card bg-slate-900/85 border border-slate-800 rounded-2xl p-5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-sky-500/15 text-sky-300">Day 1 • Mon, Nov 16</span>
+            <span class="text-xs text-slate-400">Drive: 1 hr 15 min</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Arrival at LIR, Jimny Pickup & Cliffside Pool Sunset</h3>
+          <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-disc list-inside">
+            <li><strong>12:45 PM:</strong> Land at Liberia (LIR), clear customs, and take shuttle to Enterprise for your <strong>Suzuki Jimny 4x4</strong>.</li>
+            <li><strong>2:15 PM:</strong> Drive west on Route 21; quick stop at <em>Maxi Palí</em> or <em>Mercadito</em> for coffee, fruit & drinks.</li>
+            <li><strong>3:45 PM:</strong> Check into <strong>Lux. Romantic Cocoon</strong> in Potrero.</li>
+            <li><strong>4:45–5:30 PM:</strong> First sunset photography session right from your private plunge pool overlooking Potrero Bay, followed by beachfront dinner at <em>Coco Loco</em> or <em>Hemingway's</em>.</li>
+          </ul>
+        </div>
+
+        <!-- Day 2 -->
+        <div data-group="1" class="day-card bg-slate-900/85 border border-slate-800 rounded-2xl p-5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-sky-500/15 text-sky-300">Day 2 • Tue, Nov 17</span>
+            <span class="text-xs text-slate-400">Local Hops: 5–20 min</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Over-Water Bay Sunrise, Playa Penca & Las Catalinas</h3>
+          <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-disc list-inside">
+            <li><strong>5:15–6:15 AM (Sunrise):</strong> East side of Flamingo Peninsula / Marina Overlook (captures the sun rising over Potrero Bay water toward the inland volcanoes).</li>
+            <li><strong>8:30 AM – 12:00 PM:</strong> Swim and explore pale-sand <strong>Playa Penca</strong> & <strong>Playa Prieta</strong> (5 mins) or white-shell <strong>Playa Conchal</strong> (20 mins).</li>
+            <li><strong>Afternoon:</strong> Lunch in car-free Mediterranean village of <strong>Las Catalinas</strong> + afternoon plunge pool relax.</li>
+            <li><strong>4:45–5:30 PM (Sunset):</strong> Low-tide reflections at Playa Penca or Las Catalinas Ridge Trail overlooking the Catalina Islands.</li>
+          </ul>
+        </div>
+
+        <!-- Day 3 -->
+        <div data-group="2" class="day-card bg-slate-900/85 border border-slate-800 rounded-2xl p-5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-amber-500/15 text-amber-300">Day 3 • Wed, Nov 18</span>
+            <span class="text-xs text-slate-400">Drive: 2 hr 15 min (Paved)</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Inland Drive to Sámara, Gecko Verde & Wild Scarlet Macaws</h3>
+          <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-disc list-inside">
+            <li><strong>10:00 AM:</strong> Check out of Potrero and take paved <strong>Route 21 → Santa Cruz → Nicoya → Route 150</strong>.</li>
+            <li><strong>11:30 AM (Lunch):</strong> Stop at <strong>Coopetortilla</strong> in Santa Cruz for handmade wood-fired cheese tortillas & casados.</li>
+            <li><strong>2:30–3:00 PM:</strong> Check into <strong>El Pequeño Gecko Verde</strong>—pay ~$250 cash for the 8% discount!</li>
+            <li><strong>3:45–5:30 PM (Macaws & Sunset):</strong> Drive 8 mins to <strong>Playa Carrillo</strong> to photograph wild <strong>Scarlet Macaws</strong> in the beach almond trees, then capture sunset from <em>Mirador de Playa Carrillo</em>.</li>
+          </ul>
+        </div>
+
+        <!-- Day 4 -->
+        <div data-group="2" class="day-card bg-slate-900/85 border border-slate-800 rounded-2xl p-5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-amber-500/15 text-amber-300">Day 4 • Thu, Nov 19</span>
+            <span class="text-xs text-slate-400">Local Hops: 5–15 min</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Camaronal Sea Turtle Sunrise, Isla Chora Kayak & Carrillo Palms</h3>
+          <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-disc list-inside">
+            <li><strong>5:20–6:45 AM (Sunrise):</strong> Drive 15 mins south to <strong>Playa Camaronal Wildlife Refuge</strong> for volcanic sea stacks and Olive Ridley sea turtle tracks/hatchlings—or walk 4 mins from Gecko Verde to wild <strong>Playa Buenavista</strong> for howler monkeys & coatis.</li>
+            <li><strong>8:30–11:30 AM:</strong> Ocean kayak & snorkel to pink-sand <strong>Isla Chora</strong> OR flatwater Río Ora mangrove wildlife kayak.</li>
+            <li><strong>Afternoon & Sunset:</strong> Swim under the coconut palms at Playa Carrillo + sunset drinks at <em>Hula Jungla</em>.</li>
+          </ul>
+        </div>
+
+        <!-- Day 5 -->
+        <div data-group="3" class="day-card bg-slate-900/85 border border-slate-800 rounded-2xl p-5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300">Day 5 • Fri, Nov 20</span>
+            <span class="text-xs text-slate-400">Drive: 3 hr 00 min</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Coast to Rainforest Valley (Sámara → Bitzu Riverside Dome)</h3>
+          <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-disc list-inside">
+            <li><strong>9:30 AM:</strong> Check out of Sámara and head inland via Nicoya & Route 18 (La Amistad Bridge) to Highway 1 at Cañas.</li>
+            <li><strong>12:00–1:30 PM (Guarded Lunch Stop):</strong> Stop at <strong>Café & Macadamia</strong> right at the Hwy 1 / Route 6 turnoff in Cañas (watched parking lot right outside the window + optional 45-min walk at <em>Las Pumas Rescue Center</em> next door).</li>
+            <li><strong>2:30 PM:</strong> Check into <strong>Bitzu Dome</strong> on the Bijagua River; walk the private 1 km Miravalles viewpoint trail or 2 km Cataratas Bijagua waterfall trail 150m away!</li>
+          </ul>
+        </div>
+
+        <!-- Day 6 -->
+        <div data-group="3" class="day-card bg-slate-900/85 border border-slate-800 rounded-2xl p-5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300">Day 6 • Sat, Nov 21</span>
+            <span class="text-xs text-slate-400">Local Hops: 10–20 min</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Río Celeste Waterfall (8 AM) + Guaranteed Sloth & Frog Walks</h3>
+          <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-disc list-inside">
+            <li><strong>8:00–11:15 AM (Río Celeste Hike):</strong> Enter Tenorio National Park on the first <strong>8:00 AM SINAC slot</strong> ahead of tour buses to photograph the neon-turquoise waterfall, Blue Lagoon & El Teñidero.</li>
+            <li><strong>11:30 AM:</strong> Lunch right outside the park at <em>Tapirus Paradise</em> (active hummingbird & tanager feeders on the deck!).</li>
+            <li><strong>2:00–3:30 PM (100% Guaranteed Sloths):</strong> Guided walk at <strong>Finca Verde Lodge</strong> ($15/pp) for eye-level two-toed and three-toed sloths in low cecropia trees + strawberry poison dart frogs.</li>
+            <li><strong>5:30–7:30 PM (Twilight Walk):</strong> Dusk walk at <strong>Tapir Valley Nature Reserve</strong> for Red-Eyed Tree Frogs, Glass Frogs & wild Baird's Tapirs.</li>
+          </ul>
+        </div>
+
+        <!-- Day 7 -->
+        <div data-group="4" class="day-card bg-slate-900/85 border border-slate-800 rounded-2xl p-5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-rose-500/15 text-rose-300">Day 7 • Sun, Nov 22</span>
+            <span class="text-xs text-slate-400">Drive: 1 hr 45 min</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Las Pailas Volcano Loop, Oropéndola Waterfall & Río Negro Hot Springs</h3>
+          <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-disc list-inside">
+            <li><strong>7:45 AM:</strong> Depart Bijagua down Route 6 → Hwy 1 → Curubandé to <strong>Hacienda Guachipelín</strong>.</li>
+            <li><strong>9:45 AM (Drop Bags First!):</strong> Pre-check in at Guachipelín reception (present physical credit card used to pay!), get your hot springs/waterfall wristbands, and <strong>lock bags with the bell desk</strong>.</li>
+            <li><strong>10:15 AM – 12:30 PM:</strong> Hike the 3 km <strong>Las Pailas</strong> volcanic mud pots & fumaroles loop (open Sundays; closed Mondays!) + visit 82-ft <strong>Oropéndola Waterfall</strong>.</li>
+            <li><strong>2:30–5:35 PM:</strong> Soak in <strong>Río Negro Hot Springs & volcanic mud baths</strong> (included!) + capture sunset over the Guanacaste volcanic savanna.</li>
+          </ul>
+        </div>
+
+        <!-- Day 8 -->
+        <div data-group="4" class="day-card bg-slate-900/85 border border-slate-800 rounded-2xl p-5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded bg-purple-500/15 text-purple-300">Day 8 • Mon, Nov 23</span>
+            <span class="text-xs text-slate-400">Drive: 45–50 min</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Ranch Morning Wildlife, Buffet Breakfast & Easy Drive to LIR</h3>
+          <ul class="space-y-1.5 text-xs sm:text-sm text-slate-300 list-disc list-inside">
+            <li><strong>6:30–8:30 AM:</strong> Morning bird & monkey walk around the ranch cenízaro trees, followed by your <strong>included full Costa Rican buffet breakfast</strong>.</li>
+            <li><strong>9:15 AM:</strong> Check out and drive 45 minutes on paved roads via Curubandé & Liberia to Enterprise Car Rental.</li>
+            <li><strong>10:30 AM:</strong> Return Suzuki Jimny and hop the 5-minute Enterprise shuttle to LIR Terminal for your ~2:00 PM Delta flight home.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: INTERACTIVE PRE-TRIP ACTION CHECKLIST & MASTER BUDGET TABLE -->
+    <section class="border-t border-slate-800/80 pt-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+      <!-- Left 5 Cols: Interactive Action Checklist -->
+      <div class="lg:col-span-5 space-y-4">
+        <div>
+          <h2 class="text-xl font-bold text-white">4. Action & Packing Checklist</h2>
+          <p class="text-xs text-slate-400 mt-0.5">Click any item to check it off as you prepare for departure.</p>
+        </div>
+        <div id="checklistContainer" class="space-y-2"></div>
+      </div>
+
+      <!-- Right 7 Cols: Master Budget Summary Table -->
+      <div class="lg:col-span-7 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-white">5. Master Trip Budget Breakdown (2 Adults)</h2>
+            <p class="text-xs text-slate-400 mt-0.5">Downloadable spreadsheet copy available via the button on the right.</p>
+          </div>
+          <a href="./budget.csv" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-500 text-slate-950 hover:bg-emerald-400 transition">
+            ⬇ Download CSV
+          </a>
+        </div>
+
+        <div class="overflow-x-auto bg-slate-900/90 border border-slate-800 rounded-2xl">
+          <table class="w-full text-left border-collapse text-xs">
+            <thead>
+              <tr class="border-b border-slate-800 bg-slate-950/70 text-slate-400 uppercase">
+                <th class="py-3 px-3.5">Item</th>
+                <th class="py-3 px-3.5 text-right">Total (2P)</th>
+                <th class="py-3 px-3.5 text-right">Paid Now</th>
+                <th class="py-3 px-3.5 text-right">Due on Trip</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/70 text-slate-200">
+              <tr>
+                <td class="py-2.5 px-3.5 font-medium">✈️ Delta Flights to LIR (w/ Companion Cert)</td>
+                <td class="py-2.5 px-3.5 text-right font-semibold">$845.13</td>
+                <td class="py-2.5 px-3.5 text-right text-emerald-400">$845.13</td>
+                <td class="py-2.5 px-3.5 text-right text-slate-500">$0.00</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3.5 font-medium">🚙 Enterprise Suzuki Jimny 4x4 (7 Days)</td>
+                <td class="py-2.5 px-3.5 text-right font-semibold">$431.75</td>
+                <td class="py-2.5 px-3.5 text-right text-slate-500">$0.00</td>
+                <td class="py-2.5 px-3.5 text-right text-amber-300">$431.75</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3.5 font-medium">🏖️ Stop 1: Potrero Lux. Romantic Cocoon (2N)</td>
+                <td class="py-2.5 px-3.5 text-right font-semibold">$277.74</td>
+                <td class="py-2.5 px-3.5 text-right text-emerald-400">$277.74</td>
+                <td class="py-2.5 px-3.5 text-right text-slate-500">$0.00</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3.5 font-medium">🌴 Stop 2: Sámara Gecko Verde Deluxe (2N, 8% Cash Discount)</td>
+                <td class="py-2.5 px-3.5 text-right font-semibold">$249.50</td>
+                <td class="py-2.5 px-3.5 text-right text-slate-500">$0.00</td>
+                <td class="py-2.5 px-3.5 text-right text-amber-300">$249.50</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3.5 font-medium">🦥 Stop 3: Bijagua Bitzu Riverside Dome (2N Direct Est.)</td>
+                <td class="py-2.5 px-3.5 text-right font-semibold">$280.00</td>
+                <td class="py-2.5 px-3.5 text-right text-slate-500">$0.00</td>
+                <td class="py-2.5 px-3.5 text-right text-amber-300">$280.00</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3.5 font-medium">🌋 Stop 4: Hacienda Guachipelín Superior Room (1N All-In)</td>
+                <td class="py-2.5 px-3.5 text-right font-semibold">$224.87</td>
+                <td class="py-2.5 px-3.5 text-right text-emerald-400">$224.87</td>
+                <td class="py-2.5 px-3.5 text-right text-slate-500">$0.00</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3.5 font-medium">🎟️ SINAC Park Tickets (Río Celeste $27.12 + Las Pailas $33.90)</td>
+                <td class="py-2.5 px-3.5 text-right font-semibold">$61.02</td>
+                <td class="py-2.5 px-3.5 text-right text-slate-500">$0.00</td>
+                <td class="py-2.5 px-3.5 text-right text-amber-300">$61.02</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3.5 font-medium">🦥 Finca Verde Sloth Walk ($30) + Night Frog/Tapir ($110) + Kayak ($80)</td>
+                <td class="py-2.5 px-3.5 text-right font-semibold">$220.00</td>
+                <td class="py-2.5 px-3.5 text-right text-slate-500">$0.00</td>
+                <td class="py-2.5 px-3.5 text-right text-amber-300">$220.00</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3.5 font-medium">🍽️ Food, Coffee, Beach Dinners & Groceries (8 Days)</td>
+                <td class="py-2.5 px-3.5 text-right font-semibold">$560.00</td>
+                <td class="py-2.5 px-3.5 text-right text-slate-500">$0.00</td>
+                <td class="py-2.5 px-3.5 text-right text-amber-300">$560.00</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-3.5 font-medium">⛽ Fuel ($85) + Beach Parking Tips ($25)</td>
+                <td class="py-2.5 px-3.5 text-right font-semibold">$110.00</td>
+                <td class="py-2.5 px-3.5 text-right text-slate-500">$0.00</td>
+                <td class="py-2.5 px-3.5 text-right text-amber-300">$110.00</td>
+              </tr>
+              <tr class="bg-slate-950 font-bold text-white border-t-2 border-slate-700 text-xs sm:text-sm">
+                <td class="py-3.5 px-3.5">GRAND TOTAL (2 Adults • $1,630.01 / person)</td>
+                <td class="py-3.5 px-3.5 text-right text-sky-400">$3,260.01</td>
+                <td class="py-3.5 px-3.5 text-right text-emerald-400">$1,347.74</td>
+                <td class="py-3.5 px-3.5 text-right text-amber-300">$1,912.27</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+    const TASKS = [
+      { id: 't1', text: 'Confirm Bitzu Dome (Nov 20–22) via WhatsApp (+506 8689-0000) or Airbnb backup', doneDefault: false },
+      { id: 't2', text: 'Book Potrero Lux. Romantic Cocoon (Nov 16–18, Confirmed on Airbnb)', doneDefault: true },
+      { id: 't3', text: 'Book Sámara El Pequeño Gecko Verde (Nov 18–20, Confirmed Direct)', doneDefault: true },
+      { id: 't4', text: 'Book Rincón Hacienda Guachipelín (Nov 22–23, Confirmed & Paid)', doneDefault: true },
+      { id: 't5', text: 'Buy Sat Nov 21 (8:00 AM) Tenorio / Río Celeste tickets on serviciosenlinea.sinac.go.cr', doneDefault: false },
+      { id: 't6', text: 'Buy Sun Nov 22 Rincón de la Vieja (SECTOR PAILAS) tickets on serviciosenlinea.sinac.go.cr', doneDefault: false },
+      { id: 't7', text: 'Pack the exact physical credit card used to pay for Hacienda Guachipelín (required at check-in!)', doneDefault: false },
+      { id: 't8', text: 'Bring ~$250 USD cash for El Pequeño Gecko Verde check-in to unlock the 8% cash discount', doneDefault: false },
+      { id: 't9', text: 'Download offline Google Maps + Waze App for Guanacaste & Alajuela', doneDefault: false },
+      { id: 't10', text: 'Pack CPL polarizer filter, macro/telephoto lenses, dry bag, and dark cloth to cover luggage in Jimny', doneDefault: false }
+    ];
+
+    let taskMap = {};
+    try {
+      const saved = localStorage.getItem('cr26_logistics_tasks');
+      if (saved) {
+        taskMap = JSON.parse(saved);
+      } else {
+        TASKS.forEach(t => { if (t.doneDefault) taskMap[t.id] = true; });
+      }
+    } catch (e) {}
+
+    function toggleTask(id) {
+      taskMap[id] = !taskMap[id];
+      try { localStorage.setItem('cr26_logistics_tasks', JSON.stringify(taskMap)); } catch (e) {}
+      renderTasks();
+    }
+
+    function resetTasks() {
+      taskMap = {};
+      TASKS.forEach(t => { if (t.doneDefault) taskMap[t.id] = true; });
+      try { localStorage.setItem('cr26_logistics_tasks', JSON.stringify(taskMap)); } catch (e) {}
+      renderTasks();
+    }
+
+    function renderTasks() {
+      const done = TASKS.filter(t => taskMap[t.id]).length;
+      document.getElementById('doneTaskCount').textContent = done;
+      document.getElementById('totalTaskCount').textContent = TASKS.length;
+      document.getElementById('taskProgressBar').style.width = Math.round((done / TASKS.length) * 100) + '%';
+
+      document.getElementById('checklistContainer').innerHTML = TASKS.map(t => {
+        const isDone = !!taskMap[t.id];
+        return `
+          <div onclick="toggleTask('${t.id}')" class="cursor-pointer flex items-start gap-3 p-3 rounded-xl border transition ${
+            isDone
+              ? 'bg-emerald-950/30 border-emerald-500/40 text-slate-300'
+              : 'bg-slate-900/90 border-slate-800 hover:border-slate-700 text-white'
+          }">
+            <div class="mt-0.5 w-5 h-5 rounded-md flex items-center justify-center text-xs font-bold shrink-0 ${
+              isDone ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 border border-slate-600 text-transparent'
+            }">✓</div>
+            <span class="text-xs sm:text-sm ${isDone ? 'line-through text-slate-400' : 'text-slate-200'}">${t.text}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterDays(group) {
+      document.querySelectorAll('.day-btn').forEach(b => {
+        if (b.dataset.day === group) {
+          b.className = 'day-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-sky-500 text-slate-950';
+        } else {
+          b.className = 'day-btn px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700';
+        }
+      });
+      document.querySelectorAll('.day-card').forEach(card => {
+        if (group === 'all' || card.dataset.group === group) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+
+    renderTasks();
+  </script>
+</body>
+</html>

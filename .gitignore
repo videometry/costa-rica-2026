@@ -1,0 +1,14 @@
+# Keep private receipts, confirmation numbers, and local-only files off GitHub
+Receipts_and_Confirmations/
+gallery_images/*.png
+*.pdf
+*.xlsx
+00_Confirmed_Bookings_and_Receipts_Index.md
+01_Live_Lodging_Shortlist_and_Prices.md
+02_Day_by_Day_Itinerary_and_Driving_Guide.md
+03_Photography_and_Wildlife_Field_Guide.md
+04_Booking_Checklist_and_Budget_Tracker.md
+README.md
+Costa_Rica_2026_Logistics_and_Lodging_Hub.html
+Costa_Rica_2026_Master_Trip_Budget.csv
+Costa_Rica_Nov_16-23_2026_Budget.csv

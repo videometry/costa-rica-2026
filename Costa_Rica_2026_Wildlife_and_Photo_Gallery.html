@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Costa Rica 2026 — Wildlife, Fauna & Photography Field Gallery</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #0b0f14;
+      color: #f1f5f9;
+    }
+    .serif-title {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+    .card-zoom:hover img {
+      transform: scale(1.06);
+    }
+    .captured-card {
+      border-color: #10b981 !important;
+      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.4), 0 12px 30px -10px rgba(16, 185, 129, 0.2);
+    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+  </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-emerald-500 selection:text-slate-950">
+
+  <!-- Top App Navigation Bar -->
+  <nav class="sticky top-0 z-40 backdrop-blur-xl bg-[#0b0f14]/90 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2 font-bold text-white text-sm sm:text-base">
+        <span>🇨🇷 Costa Rica 2026</span>
+        <span class="text-slate-600">•</span>
+        <span class="text-xs sm:text-sm font-medium text-emerald-400">Nov 16–23, 2026</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <a href="./index.html" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+          🏨 Logistics & Lodging Hub
+        </a>
+        <a href="./Costa_Rica_2026_Wildlife_and_Photo_Gallery.html" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-emerald-500 text-slate-950 shadow">
+          📸 Wildlife & Photo Gallery
+        </a>
+        <a href="./budget.csv" class="hidden sm:inline-flex px-3.5 py-1.5 rounded-full text-xs font-semibold bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 border border-sky-500/30 transition">
+          📊 Budget CSV
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Top Hero Banner -->
+  <header class="relative overflow-hidden border-b border-slate-800/80 bg-gradient-to-b from-emerald-950/50 via-slate-900/90 to-[#0b0f14]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold tracking-wider uppercase mb-4">
+            <span>📸 Work & Field Photography Lookbook</span>
+            <span>•</span>
+            <span>Nov 16–23, 2026</span>
+          </div>
+          <h1 class="serif-title text-3xl sm:text-5xl font-bold text-white tracking-tight">
+            Costa Rica 2026 Wildlife, Fauna & Light Gallery
+          </h1>
+          <p class="mt-3 text-slate-300 max-w-3xl text-sm sm:text-base leading-relaxed">
+            Interactive field guide of the exact mammals, birds, amphibians, reptiles, tropical flora, and sunrise/sunset compositions along your 4-stop Guanacaste & Northern Rainforest loop. Click any photo to inspect full-screen, filter by stop, and check off shots as you capture them.
+          </p>
+        </div>
+
+        <!-- Shot List Progress Widget -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 min-w-[280px] shadow-xl">
+          <div class="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+            <span>Field Shot Checklist</span>
+            <button onclick="resetChecklist()" class="text-emerald-400 hover:text-emerald-300 underline text-xs font-normal">Reset</button>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span id="capturedCount" class="text-3xl font-extrabold text-emerald-400">0</span>
+            <span class="text-slate-400 text-sm">/ <span id="totalCount">24</span> species captured</span>
+          </div>
+          <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden mt-3">
+            <div id="progressBar" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4-Stop Route Ribbon -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-8">
+        <div onclick="setFilter('potrero')" class="cursor-pointer group bg-slate-900/70 hover:bg-slate-800/80 border border-slate-800 hover:border-sky-500/50 rounded-xl p-3.5 transition">
+          <div class="flex items-center justify-between text-xs text-sky-400 font-semibold uppercase tracking-wider">
+            <span>Stop 1 • Nov 16–18 (2N)</span>
+            <span class="px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/30">Booked</span>
+          </div>
+          <div class="font-bold text-white mt-1 group-hover:text-sky-300 transition">🏖️ Potrero & Playa Penca</div>
+          <div class="text-xs text-slate-400 mt-0.5">Lux. Romantic Cocoon • Cliffside Plunge Pool</div>
+        </div>
+
+        <div onclick="setFilter('samara')" class="cursor-pointer group bg-slate-900/70 hover:bg-slate-800/80 border border-slate-800 hover:border-amber-500/50 rounded-xl p-3.5 transition">
+          <div class="flex items-center justify-between text-xs text-amber-400 font-semibold uppercase tracking-wider">
+            <span>Stop 2 • Nov 18–20 (2N)</span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">Confirmed</span>
+          </div>
+          <div class="font-bold text-white mt-1 group-hover:text-amber-300 transition">🌴 Sámara & Playa Carrillo</div>
+          <div class="text-xs text-slate-400 mt-0.5">El Pequeño Gecko Verde • Lodge Deluxe</div>
+        </div>
+
+        <div onclick="setFilter('bijagua')" class="cursor-pointer group bg-slate-900/70 hover:bg-slate-800/80 border border-slate-800 hover:border-emerald-500/50 rounded-xl p-3.5 transition">
+          <div class="flex items-center justify-between text-xs text-emerald-400 font-semibold uppercase tracking-wider">
+            <span>Stop 3 • Nov 20–22 (2N)</span>
+            <span class="px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/30 text-amber-300">WhatsApp</span>
+          </div>
+          <div class="font-bold text-white mt-1 group-hover:text-emerald-300 transition">🦥 Bijagua & Río Celeste</div>
+          <div class="text-xs text-slate-400 mt-0.5">Bitzu Riverside Dome • Finca Verde Sloths</div>
+        </div>
+
+        <div onclick="setFilter('rincon')" class="cursor-pointer group bg-slate-900/70 hover:bg-slate-800/80 border border-slate-800 hover:border-rose-500/50 rounded-xl p-3.5 transition">
+          <div class="flex items-center justify-between text-xs text-rose-400 font-semibold uppercase tracking-wider">
+            <span>Stop 4 • Nov 22–23 (1N)</span>
+            <span class="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 text-emerald-300">Confirmed</span>
+          </div>
+          <div class="font-bold text-white mt-1 group-hover:text-rose-300 transition">🌋 Rincón de la Vieja</div>
+          <div class="text-xs text-slate-400 mt-0.5">Hacienda Guachipelín • Hot Springs & Mud Pots</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sticky Filter & Search Bar -->
+  <div class="sticky top-0 z-30 backdrop-blur-xl bg-[#0b0f14]/85 border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div class="flex flex-wrap items-center gap-1.5" id="filterButtons">
+        <button data-filter="all" onclick="setFilter('all')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-emerald-500 text-slate-950">
+          All Wildlife & Fauna (24)
+        </button>
+        <button data-filter="priority" onclick="setFilter('priority')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-slate-800/90 text-slate-300 hover:bg-slate-700">
+          ⭐ Must-Capture Work Targets
+        </button>
+        <button data-filter="potrero" onclick="setFilter('potrero')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-slate-800/90 text-slate-300 hover:bg-slate-700">
+          🏖️ Stop 1: Potrero
+        </button>
+        <button data-filter="samara" onclick="setFilter('samara')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-slate-800/90 text-slate-300 hover:bg-slate-700">
+          🌴 Stop 2: Sámara & Carrillo
+        </button>
+        <button data-filter="bijagua" onclick="setFilter('bijagua')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-slate-800/90 text-slate-300 hover:bg-slate-700">
+          🦥 Stop 3: Bijagua & Río Celeste
+        </button>
+        <button data-filter="rincon" onclick="setFilter('rincon')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-slate-800/90 text-slate-300 hover:bg-slate-700">
+          🌋 Stop 4: Rincón Volcano
+        </button>
+        <button data-filter="flora" onclick="setFilter('flora')" class="filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-slate-800/90 text-slate-300 hover:bg-slate-700">
+          🌺 Macro, Frogs & Flora
+        </button>
+      </div>
+
+      <div class="relative min-w-[230px]">
+        <input
+          id="searchInput"
+          type="text"
+          oninput="renderGallery()"
+          placeholder="Search sloth, macaw, frog, toucan..."
+          class="w-full bg-slate-900 border border-slate-700/80 focus:border-emerald-500 rounded-xl px-3.5 py-1.5 text-xs text-white placeholder-slate-500 outline-none"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-14">
+
+    <!-- Wildlife & Fauna Grid -->
+    <section>
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white">Wildlife, Birds, Amphibians & Tropical Flora</h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-0.5">Every card includes exact spotting locations along your route, best time of day, and recommended camera settings.</p>
+        </div>
+        <span id="visibleCountBadge" class="text-xs font-medium px-3 py-1 rounded-full bg-slate-800 text-slate-300">Showing 24</span>
+      </div>
+
+      <div id="galleryGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- Golden Hour Sunrise, Sunset & Landscape Section -->
+    <section class="border-t border-slate-800/80 pt-12">
+      <div class="mb-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold uppercase tracking-wider mb-2">
+          🌅 Mid-November Sun Angles • Sunrise ~5:38 AM (111° ESE) • Sunset ~5:14 PM (249° WSW)
+        </div>
+        <h2 class="serif-title text-2xl sm:text-3xl font-bold text-white">Golden Hour & Landscape Compositions by Stop</h2>
+        <p class="text-sm text-slate-400 mt-1">Compass-verified sunrise, sunset, waterfall, and volcanic steam locations at each of your 4 stays.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Stop 1 -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-sky-400">Stop 1 • Potrero & North Coast (Nov 16–18)</span>
+            <span class="text-xs text-slate-400">24–70mm + CPL + ND Filter</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Over-Water Bay Sunrise & Volcanic Headland Sunsets</h3>
+          <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <p><strong class="text-amber-300">🌅 Sunrise (5:15–6:15 AM) — East Side of Flamingo Peninsula / Marina Overlook:</strong> Because Flamingo Peninsula juts north-northwest, its eastern shoreline looks East-Southeast across calm Potrero Bay toward the inland volcano chain—giving you a rare <em>sunrise over the water</em> on the Pacific coast with moored sailboats in the foreground.</p>
+            <p><strong class="text-rose-300">🌇 Sunset (4:45–5:35 PM) — Lux. Romantic Cocoon Deck, Playa Penca & Las Catalinas Ridge:</strong> Capture storm-cloud reflections right from your cliffside plunge pool, low-tide mirror sand framed by dark volcanic rocks at Playa Penca (5 mins away), or elevated island views over the Catalina Islands from Playa Danta ridge trail.</p>
+          </div>
+        </div>
+
+        <!-- Stop 2 -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Stop 2 • Sámara, Carrillo & Camaronal (Nov 18–20)</span>
+            <span class="text-xs text-slate-400">70–200mm + 16–35mm</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Sea Turtle Tracks at Dawn & Coconut-Palm Bay Compression</h3>
+          <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <p><strong class="text-amber-300">🌅 Sunrise (5:20–6:30 AM) — Playa Camaronal Wildlife Refuge & Buena Vista Estuary:</strong> Drive 15 mins south of Carrillo to Camaronal for wild volcanic sea stacks, crashing surf, and <strong>Olive Ridley sea turtle nesting tracks and hatchlings</strong> in warm dawn sidelight—or walk 4 mins from Gecko Verde to wild Playa Buenavista.</p>
+            <p><strong class="text-rose-300">🌇 Sunset (4:45–5:35 PM) — Mirador de Playa Carrillo & West End Reef:</strong> Stop at the high cliffside overlook on Route 150 between Sámara and Carrillo with a 70–200mm lens to compress hundreds of leaning coconut palms framing the bay, then walk onto the wet sand at Carrillo's west end for mirror sky reflections.</p>
+          </div>
+        </div>
+
+        <!-- Stop 3 -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Stop 3 • Bijagua, Bitzu Dome & Río Celeste (Nov 20–22)</span>
+            <span class="text-xs text-slate-400">Tripod + CPL + 100–400mm + Macro</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Neon Turquoise Waterfalls, Private River Pools & Volcano Mist</h3>
+          <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <p><strong class="text-amber-300">🌅 Sunrise (5:30–6:30 AM) — Bitzu Dome Miravalles Trail & Route 6 Pastures:</strong> Walk the private 1 km Miravalles viewpoint trail right next to Bitzu Dome as golden morning light cuts through valley fog below the twin peaks of Tenorio Volcano.</p>
+            <p><strong class="text-emerald-300">💧 Waterfalls (8:00 AM) — Río Celeste + Private Cataratas Bijagua Trail:</strong> Enter Tenorio National Park at 8:00 AM sharp with a circular polarizer (CPL) to cut glare off the neon-blue pool (`1/4s–1s`, ISO 64–100). Back at Bitzu Dome, walk 150m to the private 2 km <strong>Cataratas Bijagua waterfall trail</strong> for crowd-free long exposures.</p>
+          </div>
+        </div>
+
+        <!-- Stop 4 -->
+        <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-rose-400">Stop 4 • Rincón de la Vieja & Río Negro (Nov 22–23)</span>
+            <span class="text-xs text-slate-400">24–105mm + Fast Prime</span>
+          </div>
+          <h3 class="text-lg font-bold text-white">Backlit Volcanic Fumaroles, Canyon Waterfalls & Savanna Sunset</h3>
+          <div class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <p><strong class="text-amber-300">🌋 Morning Steam (10:15 AM) — Las Pailas Volcanic Loop & Oropéndola Waterfall:</strong> Shoot into angled morning sunlight to backlight the rising steam plumes, bubbling clay pots (<em>pailas</em>), and twisted strangler figs, then frame the 82-foot Oropéndola Waterfall plunging into its turquoise canyon.</p>
+            <p><strong class="text-rose-300">🌇 Sunset (4:50–5:40 PM) — Hacienda Guachipelín Pacific Savanna:</strong> The western slopes of Rincón de la Vieja open across golden Guanacaste savannas looking straight out to the Pacific Ocean and Papagayo Peninsula for fiery crimson last-night skies.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox" onclick="closeLightbox(event)" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="relative max-w-4xl w-full bg-slate-900 border border-slate-700 rounded-2xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+      <button onclick="closeLightbox()" class="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center text-lg font-bold">✕</button>
+      <div class="grid grid-cols-1 md:grid-cols-5">
+        <div class="md:col-span-3 bg-black flex items-center justify-center max-h-[75vh]">
+          <img id="lightboxImg" src="" alt="" class="w-full h-full object-contain max-h-[75vh]" />
+        </div>
+        <div class="md:col-span-2 p-6 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div id="lightboxStopBadge" class="inline-block text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"></div>
+            <h3 id="lightboxTitle" class="text-2xl font-bold text-white"></h3>
+            <p id="lightboxSci" class="text-xs italic text-slate-400"></p>
+            <p id="lightboxDesc" class="text-sm text-slate-200 leading-relaxed"></p>
+            <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-3 space-y-1.5 text-xs">
+              <div><span class="text-slate-400 font-semibold">📍 Exact Spot:</span> <span id="lightboxLocation" class="text-white"></span></div>
+              <div><span class="text-slate-400 font-semibold">⏰ Best Window:</span> <span id="lightboxTime" class="text-amber-300"></span></div>
+              <div><span class="text-slate-400 font-semibold">📷 Camera Spec:</span> <span id="lightboxCamera" class="text-emerald-300"></span></div>
+            </div>
+          </div>
+          <button id="lightboxCaptureBtn" class="w-full py-2.5 rounded-xl font-semibold text-sm transition"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ITEMS = [
+      {
+        id: 'sloth_three_toed',
+        name: 'Brown-Throated Three-Toed Sloth',
+        sci: 'Bradypus variegatus',
+        img: './gallery_images/sloth_three_toed.jpg',
+        stops: ['bijagua', 'rincon'],
+        priority: true,
+        category: 'Mammal • #1 Priority Target',
+        stopLabel: 'Stop 3 • Bijagua (Finca Verde & Bitzu Trails)',
+        location: 'Finca Verde Lodge ($15 walk, 10 mins from Bitzu Dome) & Cataratas Bijagua trees',
+        time: '8:00–10:30 AM or 2:00–3:30 PM (active feeding in low cecropia trees)',
+        camera: '100–400mm or 70–200mm • f/4–f/5.6 • 1/500s • Spot metering on face',
+        desc: 'Unlike inside the National Park where sloths sleep 120 ft high against a bright white sky, Finca Verde in Bijagua has habituated three-toed sloths hanging in low cecropia trees at eye-to-mid level against soft green foliage.'
+      },
+      {
+        id: 'sloth_two_toed',
+        name: "Hoffmann's Two-Toed Sloth",
+        sci: 'Choloepus hoffmanni',
+        img: './gallery_images/sloth_two_toed.jpg',
+        stops: ['bijagua'],
+        priority: true,
+        category: 'Mammal • Priority Target',
+        stopLabel: 'Stop 3 • Bijagua (Finca Verde & Tapir Valley)',
+        location: 'Finca Verde Lodge & Tapir Valley Nature Reserve (Bijagua)',
+        time: '3:30–6:30 PM (wakes up at dusk to move along branches)',
+        camera: '70–200mm f/2.8 or 100–400mm • 1/400s+ • Auto ISO',
+        desc: 'Larger, shaggier, and golden-snouted compared to the three-toed sloth. Primarily nocturnal, making late afternoon and twilight walks in Bijagua the best time to catch them climbing with open eyes.'
+      },
+      {
+        id: 'scarlet_macaw',
+        name: 'Wild Scarlet Macaw',
+        sci: 'Ara macao',
+        img: './gallery_images/scarlet_macaw.jpg',
+        stops: ['samara'],
+        priority: true,
+        category: 'Bird • Priority Target',
+        stopLabel: 'Stop 2 • Playa Carrillo Boulevard',
+        location: 'Beach almond trees (almendros) lining Playa Carrillo (8 mins from Gecko Verde)',
+        time: '6:00–8:30 AM & 3:45–5:15 PM daily',
+        camera: '100–400mm or 70–200mm • 1/2000s for flight • Continuous AF + Eye Tracking',
+        desc: 'Thanks to the Punta Islita/Manzanillo reintroduction corridor just south of Carrillo, raucous pairs and family flocks of wild Scarlet Macaws commute along Playa Carrillo to crack open beach almonds right above the grass boulevard.'
+      },
+      {
+        id: 'red_eyed_tree_frog',
+        name: 'Red-Eyed Tree Frog',
+        sci: 'Agalychnis callidryas',
+        img: './gallery_images/red_eyed_tree_frog.jpg',
+        stops: ['bijagua', 'flora'],
+        priority: true,
+        category: 'Amphibian • Priority Macro Target',
+        stopLabel: 'Stop 3 • Bijagua Night Walk',
+        location: 'Tapir Valley Nature Reserve, Finca Verde, or Frog’s Paradise (Bijagua)',
+        time: '5:30–7:30 PM (active right after dusk on heliconia & elephant-ear leaves)',
+        camera: '90mm/105mm Macro or 24–70mm close-focus • f/8 • 1/160s • Diffused torchlight',
+        desc: 'Costa Rica’s most iconic amphibian sleeps hidden under green leaves by day and wakes at dusk (~5:30 PM), revealing neon-green flanks, blue-and-yellow striped legs, orange toes, and crimson eyes.'
+      },
+      {
+        id: 'strawberry_dart_frog',
+        name: 'Strawberry "Blue Jeans" Poison Dart Frog',
+        sci: 'Oophaga pumilio',
+        img: './gallery_images/strawberry_dart_frog.jpg',
+        stops: ['bijagua', 'flora'],
+        priority: true,
+        category: 'Amphibian • Priority Macro Target',
+        stopLabel: 'Stop 3 • Bijagua & Cataratas Trails',
+        location: 'Cataratas Bijagua trail (150m from Bitzu Dome) & Finca Verde leaf litter',
+        time: '7:00–11:00 AM & after afternoon rain showers (diurnal)',
+        camera: '100mm Macro or 70–200mm at min focus • f/5.6–f/8 • 1/320s • Low ground angle',
+        desc: 'Tiny (2 cm) jewel-red frog with cobalt-blue legs ("blue jeans"). Boldly active during the day on damp cacao leaves, mossy roots, and red ginger flowers—listen for their high-pitched insect-likebuzz.'
+      },
+      {
+        id: 'glass_frog',
+        name: 'Reticulated Glass Frog',
+        sci: 'Hyalinobatrachium valerioi',
+        img: './gallery_images/glass_frog.jpg',
+        stops: ['bijagua', 'flora'],
+        priority: true,
+        category: 'Amphibian • Macro Target',
+        stopLabel: 'Stop 3 • Bijagua Streams',
+        location: 'Overhanging leaves above streams in Bijagua (Tapir Valley & Finca Verde)',
+        time: '5:30–8:00 PM night walk',
+        camera: '100mm Macro • f/8–f/11 • Backlight leaf softly from behind to show translucent heart',
+        desc: 'Translucent lime-green skin on the underside lets you photograph the frog’s beating red heart, white bones, and digestive tract when your guide holds a diffused light behind the leaf.'
+      },
+      {
+        id: 'keel_billed_toucan',
+        name: 'Keel-Billed Toucan',
+        sci: 'Ramphastos sulfuratus',
+        img: './gallery_images/keel_billed_toucan.jpg',
+        stops: ['bijagua', 'rincon'],
+        priority: true,
+        category: 'Bird • Priority Target',
+        stopLabel: 'Stop 3 & 4 • Bijagua & Rincón Canopy',
+        location: 'Bitzu Dome / Cataratas Bijagua fruit trees, Tapirus Paradise & Hacienda Guachipelín',
+        time: '6:00–8:00 AM & 4:00–5:00 PM',
+        camera: '100–400mm • f/5.6 • 1/1000s • Expose -0.3 EV to preserve neon yellow throat & bill',
+        desc: 'Rainbow-billed canopy icon of the northern rainforest foothills. Often perches on open cecropia and papaya branches in the early morning after rain showers.'
+      },
+      {
+        id: 'howler_monkey',
+        name: 'Mantled Howler Monkey',
+        sci: 'Alouatta palliata',
+        img: './gallery_images/howler_monkey.jpg',
+        stops: ['potrero', 'samara', 'rincon'],
+        priority: true,
+        category: 'Mammal • All Stops',
+        stopLabel: 'Stops 1, 2 & 4 • Right Outside Your Lodges',
+        location: 'El Pequeño Gecko Verde garden (Sámara), Potrero hills & Hacienda Guachipelín',
+        time: '5:30–7:30 AM & 4:00–5:15 PM',
+        camera: '70–200mm or 100–400mm • 1/800s • Catch backlit golden fringe hairs at sunrise',
+        desc: 'You will hear their deep dawn roar before you see them. At Gecko Verde in Sámara and Hacienda Guachipelín, troops with mothers carrying babies cross the canopy branches right above the paths.'
+      },
+      {
+        id: 'bairds_tapir',
+        name: "Wild Baird's Tapir (Danta)",
+        sci: 'Tapirus bairdii',
+        img: './gallery_images/bairds_tapir.jpg',
+        stops: ['bijagua'],
+        priority: true,
+        category: 'Mammal • Rare Giant',
+        stopLabel: 'Stop 3 • Tapir Valley Nature Reserve',
+        location: 'Tapir Valley Nature Reserve (10 mins from Bitzu Dome, Bijagua)',
+        time: '4:45–6:45 PM twilight walk',
+        camera: '70–200mm f/2.8 or fast prime • High ISO • Silent electronic shutter',
+        desc: 'Central America’s largest land mammal (up to 650 lbs). Bijagua’s Tapir Valley sits in the biological corridor between Tenorio and Miravalles Volcanoes and is the #1 place in northern Costa Rica to photograph wild tapirs foraging in wetlands at dusk.'
+      },
+      {
+        id: 'motmot',
+        name: 'Turquoise-Browed Motmot',
+        sci: 'Eumomota superciliosa',
+        img: './gallery_images/motmot.jpg',
+        stops: ['potrero', 'samara', 'rincon'],
+        priority: false,
+        category: 'Bird • Dry Forest Gem',
+        stopLabel: 'Stops 1, 2 & 4 • Potrero, Sámara & Rincón',
+        location: 'Gecko Verde gardens, Curubandé canyon & Potrero shady lanes',
+        time: '6:30–9:30 AM',
+        camera: '100–400mm • f/5.6 • 1/800s • Watch for pendulum tail-wagging',
+        desc: 'Striking tropical bird with glowing turquoise eyebrows and long racket-tipped tail feathers that it swings back and forth like a clock pendulum when perched on low branches and fence lines.'
+      },
+      {
+        id: 'violet_sabrewing',
+        name: 'Violet Sabrewing & Rainforest Hummingbirds',
+        sci: 'Campylopterus hemileucurus',
+        img: './gallery_images/violet_sabrewing.jpg',
+        stops: ['bijagua'],
+        priority: false,
+        category: 'Bird • High-Speed Action',
+        stopLabel: 'Stop 3 • Bijagua (Tapirus Paradise & Cataratas)',
+        location: 'Tapirus Paradise deck (outside Río Celeste entrance) & Cataratas Bijagua gardens',
+        time: '7:00 AM – 2:00 PM (continuous feeder & heliconia activity)',
+        camera: '70–200mm or 100–400mm • 1/2500s–1/3200s to freeze wings • f/4–f/5.6',
+        desc: 'The largest hummingbird in Central America—deep iridescent violet-purple plumage with a curved bill. Right outside the Río Celeste park entrance, Tapirus Paradise has feeders where 10+ hummingbird species hover feet from your lens.'
+      },
+      {
+        id: 'capuchin_monkey',
+        name: 'White-Faced Capuchin Monkey',
+        sci: 'Cebus imitator',
+        img: './gallery_images/capuchin_monkey.jpg',
+        stops: ['samara', 'rincon'],
+        priority: false,
+        category: 'Mammal • Expressive Primate',
+        stopLabel: 'Stop 4 • Rincón de la Vieja (Las Pailas)',
+        location: 'Las Pailas loop trail, Oropéndola Waterfall canyon & Buena Vista Sámara',
+        time: '7:30–11:00 AM',
+        camera: '70–200mm or 100–400mm • 1/1000s+ (they move fast!) • Continuous Eye-AF',
+        desc: 'Highly intelligent, expressive monkeys that forage for fruits, frogs, and insects in the gallery forest along the Las Pailas trail and Río Blanco canyon.'
+      },
+      {
+        id: 'coati',
+        name: 'White-Nosed Coati (Pizote)',
+        sci: 'Nasua narica',
+        img: './gallery_images/coati.jpg',
+        stops: ['samara', 'bijagua', 'rincon'],
+        priority: false,
+        category: 'Mammal',
+        stopLabel: 'Stops 2, 3 & 4 • Sámara, Bijagua & Rincón',
+        location: 'Buena Vista road outside Gecko Verde, Río Celeste trailhead & Hacienda Guachipelín',
+        time: '6:30–10:00 AM & 3:30–5:00 PM',
+        camera: '70–200mm • f/4 • 1/640s • Shoot from a low kneeling perspective',
+        desc: 'Raccoon relatives that travel through the forest in bands with their ringed tails held straight up like periscopes, pausing to climb trunks and sniff out fruit.'
+      },
+      {
+        id: 'olive_ridley_turtle',
+        name: 'Olive Ridley Sea Turtle (Tracks & Hatchlings)',
+        sci: 'Lepidochelys olivacea',
+        img: './gallery_images/olive_ridley_turtle.jpg',
+        stops: ['samara'],
+        priority: false,
+        category: 'Marine Reptile • Dawn Coastal',
+        stopLabel: 'Stop 2 • Playa Camaronal Refuge',
+        location: 'Playa Camaronal Wildlife Refuge (15 mins south of Playa Carrillo)',
+        time: '5:15–6:45 AM at sunrise',
+        camera: '24–70mm or 70–200mm • Low angle on dark volcanic sand • No flash ever near turtles',
+        desc: 'Mid-November is prime sea-turtle season on the southern Nicoya coast. Arriving at Playa Camaronal at first light frequently yields fresh flipper tracks in the black volcanic sand and baby hatchlings scrambling to the surf.'
+      },
+      {
+        id: 'magpie_jay',
+        name: 'White-Throated Magpie-Jay',
+        sci: 'Calocitta formosa',
+        img: './gallery_images/magpie_jay.jpg',
+        stops: ['potrero', 'samara', 'rincon'],
+        priority: false,
+        category: 'Bird • Guanacaste Icon',
+        stopLabel: 'Stops 1, 2 & 4 • Potrero, Sámara & Rincón',
+        location: 'Right off your pool deck at Lux. Romantic Cocoon (Potrero) & Hacienda Guachipelín',
+        time: '6:00–10:00 AM',
+        camera: '70–200mm or 100–400mm • 1/1250s',
+        desc: 'Charismatic cobalt-blue and white bird with an extravagant curly black head crest and long tail. Bold and vocal around hillside villas in Potrero and savanna trees at Rincón.'
+      },
+      {
+        id: 'eyelash_viper',
+        name: 'Golden Eyelash Pit Viper',
+        sci: 'Bothriechis schlegelii',
+        img: './gallery_images/eyelash_viper.jpg',
+        stops: ['bijagua', 'flora'],
+        priority: false,
+        category: 'Reptile • Rainforest Macro',
+        stopLabel: 'Stop 3 • Bijagua Guided Walks',
+        location: 'Finca Verde Lodge & Tapir Valley Nature Reserve (spotted by local guides)',
+        time: 'Daytime sloth walk or twilight frog walk',
+        camera: '100–400mm or 105mm Macro (keep 6+ ft safety distance!) • f/5.6',
+        desc: 'The bright yellow ("oropel") color morph is famous in Bijagua—coiled motionless on heliconia flowers or palm fronds waiting for hummingbirds and frogs, with tiny horned scales above each eye.'
+      },
+      {
+        id: 'blue_morpho',
+        name: 'Blue Morpho Butterfly',
+        sci: 'Morpho peleides',
+        img: './gallery_images/blue_morpho.jpg',
+        stops: ['bijagua', 'rincon', 'flora'],
+        priority: false,
+        category: 'Insect • Rainforest Trail',
+        stopLabel: 'Stops 3 & 4 • Río Celeste & Las Pailas',
+        location: 'Río Celeste trail clearings, Cataratas Bijagua & Oropéndola Waterfall path',
+        time: '8:30 AM – 1:00 PM (sunbeams hitting forest trails)',
+        camera: '70–200mm • 1/2000s for open electric-blue wings in flight, or macro when feeding on fallen fruit',
+        desc: 'Hand-sized butterfly with intricate owl-eye patterns on the underside of its wings when closed, and dazzling metallic blue upper wings when gliding through forest sunbeams.'
+      },
+      {
+        id: 'green_iguana',
+        name: 'Green Iguana & Spiny-Tailed Iguana (Garrobo)',
+        sci: 'Iguana iguana',
+        img: './gallery_images/green_iguana.jpg',
+        stops: ['potrero', 'samara', 'rincon'],
+        priority: false,
+        category: 'Reptile • Coastal & River',
+        stopLabel: 'Stops 1, 2 & 4 • Isla Chora, Potrero & Rincón',
+        location: 'Isla Chora pink sand beach, Gecko Verde trees & Río Negro hot springs bridges',
+        time: '9:00 AM – 3:00 PM (basking in warm sun on rocks and branches)',
+        camera: '70–200mm • f/4–f/5.6 • Focus on textured dewlap scales and amber eye',
+        desc: 'In November (the start of breeding season), dominant male green iguanas turn a fiery burnt-orange color, making dramatic close-up portraits against green jungle backgrounds.'
+      },
+      {
+        id: 'tamandua_anteater',
+        name: 'Northern Tamandua (Lesser Anteater)',
+        sci: 'Tamandua mexicana',
+        img: './gallery_images/tamandua_anteater.jpg',
+        stops: ['samara', 'rincon'],
+        priority: false,
+        category: 'Mammal • Special Sighting',
+        stopLabel: 'Stops 2 & 4 • Buena Vista & Las Pailas',
+        location: 'Buena Vista jungle road (Sámara) & Las Pailas dry-forest trees (Rincón)',
+        time: 'Early morning (6:00–8:30 AM) or late afternoon',
+        camera: '100–400mm • 1/640s',
+        desc: 'Arboreal anteater wearing a distinctive black "vest" over golden fur, using its prehensile tail and curved front claws to open termite nests in Guanacaste trees.'
+      },
+      {
+        id: 'agouti',
+        name: 'Central American Agouti (Guatusa)',
+        sci: 'Dasyprocta punctata',
+        img: './gallery_images/agouti.jpg',
+        stops: ['bijagua', 'rincon'],
+        priority: false,
+        category: 'Mammal • Forest Floor',
+        stopLabel: 'Stops 3 & 4 • Bitzu Dome & Hacienda Guachipelín',
+        location: 'Forest floor along Cataratas Bijagua trail, Finca Verde & Hacienda Guachipelín',
+        time: '6:00–9:00 AM & 4:00–5:15 PM',
+        camera: '70–200mm f/2.8 • 1/500s • Catch them sitting upright holding fallen almonds in front paws',
+        desc: 'Sleek, golden-reddish rainforest rodent that sits on its hind legs like a squirrel to crack large rainforest seeds and nuts—a key food source for ocelots and pumas.'
+      },
+      {
+        id: 'frigatebird',
+        name: 'Magnificent Frigatebird & Brown Pelican',
+        sci: 'Fregata magnificens',
+        img: './gallery_images/frigatebird.jpg',
+        stops: ['potrero', 'samara'],
+        priority: false,
+        category: 'Coastal Bird • Sunset Silhouettes',
+        stopLabel: 'Stops 1 & 2 • Potrero Bay & Isla Chora',
+        location: 'Isla Chora (off Sámara Beach), Playa Penca & Flamingo Bay',
+        time: '6:00–8:00 AM & 4:30–5:30 PM golden hour',
+        camera: '70–200mm or 100–400mm • 1/2000s • Frame pterodactyl-like silhouette against sunset sky',
+        desc: 'With a 7.5-foot wingspan and deeply forked scissor tail, frigatebirds soar effortlessly above Isla Chora and Potrero Bay, diving alongside squadrons of brown pelicans.'
+      },
+      {
+        id: 'roseate_spoonbill',
+        name: 'Roseate Spoonbill & Tiger Heron',
+        sci: 'Platalea ajaja',
+        img: './gallery_images/roseate_spoonbill.jpg',
+        stops: ['samara'],
+        priority: false,
+        category: 'Estuary Bird',
+        stopLabel: 'Stop 2 • Mala Noche & Río Ora Estuaries',
+        location: 'Mala Noche estuary (walking distance from Gecko Verde) & Río Ora mangrove kayak',
+        time: '6:00–8:30 AM (low tide wading)',
+        camera: '100–400mm • 1/1600s • Expose for bright pink wing feathers',
+        desc: 'Vibrant pink waders with spoon-shaped bills that sweep the shallow brackish lagoons behind Playa Buenavista and Río Ora alongside bare-throated tiger herons.'
+      },
+      {
+        id: 'heliconia_flora',
+        name: 'Hanging Lobster-Claw Heliconia & Red Ginger',
+        sci: 'Heliconia rostrata',
+        img: './gallery_images/heliconia_flora.jpg',
+        stops: ['samara', 'bijagua', 'flora'],
+        priority: false,
+        category: 'Tropical Flora • Hummingbird Magnet',
+        stopLabel: 'Stops 2 & 3 • Gecko Verde & Bitzu Dome Gardens',
+        location: 'Botanical gardens at El Pequeño Gecko Verde & Bitzu Dome / Bijagua trails',
+        time: 'Early morning with raindrops on bracts (6:00–8:30 AM)',
+        camera: '24–70mm or 100mm Macro • f/4 • Watch for hermit hummingbirds feeding at tips',
+        desc: 'Dramatic cascading scarlet-and-yellow tropical bracts that collect morning rainwater and attract long-billed hermit hummingbirds and tree frogs.'
+      },
+      {
+        id: 'guaria_morada_orchid',
+        name: 'Guaria Morada (National Orchid) & Bromeliads',
+        sci: 'Guarianthe skinneri',
+        img: './gallery_images/guaria_morada_orchid.jpg',
+        stops: ['bijagua', 'rincon', 'flora'],
+        priority: false,
+        category: 'Tropical Flora • Epiphyte Macro',
+        stopLabel: 'Stops 3 & 4 • Tenorio & Rincón Cloud Transition',
+        location: 'Tree trunks along Río Celeste, Cataratas Bijagua & Las Pailas',
+        time: 'Mid-morning diffused forest light',
+        camera: '90mm/105mm Macro or 24–70mm • f/5.6 • Circular Polarizer to deepen petal saturation',
+        desc: 'Costa Rica’s national flower and hundreds of epiphytic bromeliads and mosses cling to rainforest branches in Bijagua and Rincón, creating miniature water-filled ecosystems for dart frogs.'
+      }
+    ];
+
+    let activeFilter = 'all';
+    let capturedMap = {};
+    try {
+      capturedMap = JSON.parse(localStorage.getItem('cr26_captured') || '{}');
+    } catch (e) {
+      capturedMap = {};
+    }
+
+    function saveCaptured() {
+      try {
+        localStorage.setItem('cr26_captured', JSON.stringify(capturedMap));
+      } catch (e) {}
+      updateProgress();
+    }
+
+    function toggleCapture(id, ev) {
+      if (ev) ev.stopPropagation();
+      capturedMap[id] = !capturedMap[id];
+      saveCaptured();
+      renderGallery();
+      const lbBtn = document.getElementById('lightboxCaptureBtn');
+      if (lbBtn && lbBtn.dataset.id === id) {
+        updateLightboxBtn(id);
+      }
+    }
+
+    function resetChecklist() {
+      capturedMap = {};
+      saveCaptured();
+      renderGallery();
+    }
+
+    function updateProgress() {
+      const count = ITEMS.filter(i => capturedMap[i.id]).length;
+      document.getElementById('capturedCount').textContent = count;
+      document.getElementById('totalCount').textContent = ITEMS.length;
+      const pct = Math.round((count / ITEMS.length) * 100);
+      document.getElementById('progressBar').style.width = pct + '%';
+    }
+
+    function setFilter(filter) {
+      activeFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.dataset.filter === filter) {
+          btn.className = 'filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-emerald-500 text-slate-950';
+        } else {
+          btn.className = 'filter-btn px-3.5 py-1.5 rounded-full text-xs font-semibold transition bg-slate-800/90 text-slate-300 hover:bg-slate-700';
+        }
+      });
+      renderGallery();
+    }
+
+    function renderGallery() {
+      const query = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+      const filtered = ITEMS.filter(item => {
+        const matchesFilter =
+          activeFilter === 'all' ||
+          (activeFilter === 'priority' && item.priority) ||
+          item.stops.includes(activeFilter);
+        const matchesQuery =
+          !query ||
+          item.name.toLowerCase().includes(query) ||
+          item.sci.toLowerCase().includes(query) ||
+          item.desc.toLowerCase().includes(query) ||
+          item.location.toLowerCase().includes(query) ||
+          item.stopLabel.toLowerCase().includes(query);
+        return matchesFilter && matchesQuery;
+      });
+
+      document.getElementById('visibleCountBadge').textContent = `Showing ${filtered.length} of ${ITEMS.length}`;
+
+      const grid = document.getElementById('galleryGrid');
+      grid.innerHTML = filtered.map(item => {
+        const isCaptured = !!capturedMap[item.id];
+        return `
+          <article
+            onclick="openLightbox('${item.id}')"
+            class="card-zoom cursor-pointer group bg-slate-900/90 border border-slate-800 hover:border-slate-600 rounded-2xl overflow-hidden flex flex-col justify-between transition duration-200 ${isCaptured ? 'captured-card' : ''}"
+          >
+            <div>
+              <div class="relative h-56 overflow-hidden bg-slate-950">
+                <img
+                  src="${item.img}"
+                  alt="${item.name}"
+                  loading="lazy"
+                  class="w-full h-full object-cover transition duration-500"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-80"></div>
+                <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                  ${item.priority ? '<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-400 text-slate-950 shadow">⭐ Priority Shot</span>' : ''}
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-950/80 text-slate-200 border border-slate-700/80 backdrop-blur-sm">${item.category}</span>
+                </div>
+                <div class="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+                  <div>
+                    <span class="text-xs font-semibold text-emerald-300 block">${item.stopLabel}</span>
+                    <h3 class="text-lg font-bold text-white leading-snug">${item.name}</h3>
+                    <span class="text-xs italic text-slate-300">${item.sci}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-4 space-y-3">
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${item.desc}</p>
+                <div class="bg-slate-950/80 border border-slate-800/90 rounded-xl p-3 space-y-1.5 text-xs">
+                  <div><span class="text-slate-400 font-semibold">📍 Where:</span> <span class="text-slate-200">${item.location}</span></div>
+                  <div><span class="text-slate-400 font-semibold">⏰ When:</span> <span class="text-amber-300">${item.time}</span></div>
+                  <div><span class="text-slate-400 font-semibold">📷 Lens/Spec:</span> <span class="text-emerald-300">${item.camera}</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-4 pb-4 pt-1 flex items-center justify-between">
+              <span class="text-xs text-slate-400 group-hover:text-slate-200 transition">Click photo to enlarge</span>
+              <button
+                onclick="toggleCapture('${item.id}', event)"
+                class="px-3 py-1.5 rounded-xl text-xs font-semibold transition ${
+                  isCaptured
+                    ? 'bg-emerald-500 text-slate-950'
+                    : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700'
+                }"
+              >
+                ${isCaptured ? '✓ Photographed!' : 'Mark Photographed'}
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function openLightbox(id) {
+      const item = ITEMS.find(i => i.id === id);
+      if (!item) return;
+      document.getElementById('lightboxImg').src = item.img;
+      document.getElementById('lightboxImg').alt = item.name;
+      document.getElementById('lightboxStopBadge').textContent = item.stopLabel;
+      document.getElementById('lightboxTitle').textContent = item.name;
+      document.getElementById('lightboxSci').textContent = item.sci;
+      document.getElementById('lightboxDesc').textContent = item.desc;
+      document.getElementById('lightboxLocation').textContent = item.location;
+      document.getElementById('lightboxTime').textContent = item.time;
+      document.getElementById('lightboxCamera').textContent = item.camera;
+      updateLightboxBtn(id);
+      document.getElementById('lightbox').classList.remove('hidden');
+    }
+
+    function updateLightboxBtn(id) {
+      const btn = document.getElementById('lightboxCaptureBtn');
+      const isCaptured = !!capturedMap[id];
+      btn.dataset.id = id;
+      btn.onclick = (e) => toggleCapture(id, e);
+      if (isCaptured) {
+        btn.className = 'w-full py-2.5 rounded-xl font-semibold text-sm transition bg-emerald-500 text-slate-950';
+        btn.textContent = '✓ Marked as Photographed (Click to Undo)';
+      } else {
+        btn.className = 'w-full py-2.5 rounded-xl font-semibold text-sm transition bg-slate-800 hover:bg-slate-700 text-white border border-slate-600';
+        btn.textContent = '📸 Mark as Photographed on Trip';
+      }
+    }
+
+    function closeLightbox(ev) {
+      document.getElementById('lightbox').classList.add('hidden');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    updateProgress();
+    renderGallery();
+  </script>
+</body>
+</html>
