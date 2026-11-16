@@ -1,5 +1,6 @@
 # Keep private receipts, confirmation numbers, and local-only files off GitHub
 Receipts_and_Confirmations/
+READY_TO_PRINT_PACKET/
 gallery_images/*.png
 *.pdf
 *.xlsx
